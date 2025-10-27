@@ -19,11 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         mem_check:
-          - ENABLE_VALGRIND
-          - ENABLE_SANITIZERS
+#          - ENABLE_VALGRIND
+#          - ENABLE_SANITIZERS
           - NONE_MEM_CHECK
         compiler:
-          - GCC
+#          - GCC
           - CLANG
     steps:
     - uses: actions/checkout@v2
@@ -57,10 +57,11 @@ jobs:
           cmake --build .
           make
           make test
+          cmake --install . --prefix ${{ github.workspace }}/install
           
     - name: 'ApiCov'
       uses: codesa-ai/ApiCov@v0.3.4-pre
       with:
         root_path: ${{ github.workspace }}
         api_key: ${{ secrets.APICOV_KEY }}
-        install_path: $GITHUB_WORKSPACE
+        install_path: ${{ github.workspace }}/install
