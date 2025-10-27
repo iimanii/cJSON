@@ -53,11 +53,10 @@ jobs:
           mkdir -p build
           cd build
           echo [cmake]: cmake .. $EVENT_CMAKE_OPTIONS
-          cmake .. $EVENT_CMAKE_OPTIONS || (rm -rf * && cmake .. $EVENT_CMAKE_OPTIONS)
+          cmake .. $EVENT_CMAKE_OPTIONS -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install || (rm -rf * && cmake .. $EVENT_CMAKE_OPTIONS -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install)
           cmake --build .
-          make
           make test
-          cmake --install . --prefix ${{ github.workspace }}/install
+          cmake --install .
           
     - name: 'ApiCov'
       uses: codesa-ai/ApiCov@v0.3.4-pre
