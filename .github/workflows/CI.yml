@@ -46,6 +46,10 @@ jobs:
           else
             export CC=clang
           fi
+          
+          export CFLAGS="--coverage -O0"
+          export CXXFLAGS="--coverage -O0"
+          
           #run build and test
           JOBS=20
           export CTEST_PARALLEL_LEVEL=$JOBS
