@@ -34,14 +34,16 @@ jobs:
     - name: build and test
       shell: bash
       run: |
-          EVENT_CMAKE_OPTIONS="-DCMAKE_C_FLAGS=\"--coverage -O0\" -DCMAKE_CXX_FLAGS=\"--coverage -O0\""
-
-          if [ "${{ matrix.mem_check }}" == "ENABLE_VALGRIND" ]; then
-            EVENT_CMAKE_OPTIONS="$EVENT_CMAKE_OPTIONS -DENABLE_CJSON_UTILS=ON -DENABLE_VALGRIND=ON -DENABLE_SAFE_STACK=ON -DENABLE_SANITIZERS=OFF"
-          elif [ "${{ matrix.mem_check }}" == "ENABLE_SANITIZERS" ]; then
-            EVENT_CMAKE_OPTIONS="$EVENT_CMAKE_OPTIONS -DENABLE_CJSON_UTILS=ON -DENABLE_VALGRIND=OFF -DENABLE_SAFE_STACK=OFF -DENABLE_SANITIZERS=ON"
+          EEVENT_CMAKE_OPTIONS=()
+          EVENT_CMAKE_OPTIONS+=("-DCMAKE_C_FLAGS=--coverage -O0")
+          EVENT_CMAKE_OPTIONS+=("-DCMAKE_CXX_FLAGS=--coverage -O0")
+          
+          if [ "NONE_MEM_CHECK" == "ENABLE_VALGRIND" ]; then
+            EVENT_CMAKE_OPTIONS+=("-DENABLE_CJSON_UTILS=ON" "-DENABLE_VALGRIND=ON" "-DENABLE_SAFE_STACK=ON" "-DENABLE_SANITIZERS=OFF")
+          elif [ "NONE_MEM_CHECK" == "ENABLE_SANITIZERS" ]; then
+            EVENT_CMAKE_OPTIONS+=("-DENABLE_CJSON_UTILS=ON" "-DENABLE_VALGRIND=OFF" "-DENABLE_SAFE_STACK=OFF" "-DENABLE_SANITIZERS=ON")
           else
-            EVENT_CMAKE_OPTIONS="$EVENT_CMAKE_OPTIONS -DENABLE_CJSON_UTILS=ON -DENABLE_VALGRIND=OFF -DENABLE_SAFE_STACK=OFF -DENABLE_SANITIZERS=OFF"
+            EVENT_CMAKE_OPTIONS+=("-DENABLE_CJSON_UTILS=ON" "-DENABLE_VALGRIND=OFF" "-DENABLE_SAFE_STACK=OFF" "-DENABLE_SANITIZERS=OFF")
           fi
           if [ "${{ matrix.compiler }}" == "GCC" ]; then
             export CC=gcc
@@ -58,8 +60,8 @@ jobs:
           export CTEST_OUTPUT_ON_FAILURE=1
           mkdir -p build
           cd build
-          echo [cmake]: cmake .. $EVENT_CMAKE_OPTIONS
-          cmake .. $EVENT_CMAKE_OPTIONS -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install || (rm -rf * && cmake .. $EVENT_CMAKE_OPTIONS -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install)
+          echo [cmake]: cmake .. "${EVENT_CMAKE_OPTIONS[@]}"
+          cmake .. "${EVENT_CMAKE_OPTIONS[@]}" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install || (rm -rf * && cmake .. $EVENT_CMAKE_OPTIONS -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install)
           cmake --build .
           make test
           cmake --install .
