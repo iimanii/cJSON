@@ -66,7 +66,7 @@ jobs:
           cmake --install .
           
     - name: 'ApiCov'
-      uses: codesa-ai/ApiCov@debug-1.5
+      uses: codesa-ai/ApiCov@debug-1.0
       with:
         root_path: ${{ github.workspace }}
         api_key: ${{ secrets.APICOV_KEY }}
