@@ -34,7 +34,7 @@ jobs:
     - name: build and test
       shell: bash
       run: |
-          EVENT_CMAKE_OPTIONS="-DCMAKE_C_FLAGS=\"--coverage -O0\" -DCMAKE_CXX_FLAGS=\"--coverage -O0\""
+          EVENT_CMAKE_OPTIONS="-DCMAKE_C_FLAGS='--coverage;-O0' -DCMAKE_CXX_FLAGS='--coverage;-O0'"
 
           if [ "${{ matrix.mem_check }}" == "ENABLE_VALGRIND" ]; then
             EVENT_CMAKE_OPTIONS="$EVENT_CMAKE_OPTIONS -DENABLE_CJSON_UTILS=ON -DENABLE_VALGRIND=ON -DENABLE_SAFE_STACK=ON -DENABLE_SANITIZERS=OFF"
