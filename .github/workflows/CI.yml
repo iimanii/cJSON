@@ -23,8 +23,8 @@ jobs:
 #          - ENABLE_SANITIZERS
           - NONE_MEM_CHECK
         compiler:
-#          - GCC
-          - CLANG
+          - GCC
+#          - CLANG
     steps:
     - uses: actions/checkout@v2
     - name: install build dependencies
