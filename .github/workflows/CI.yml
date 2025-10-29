@@ -23,8 +23,8 @@ jobs:
 #          - ENABLE_SANITIZERS
           - NONE_MEM_CHECK
         compiler:
-          - GCC
-#          - CLANG
+#          - GCC
+          - CLANG
     steps:
     - uses: actions/checkout@v2
     - name: install build dependencies
@@ -35,7 +35,7 @@ jobs:
       shell: bash
       run: |
           EVENT_CMAKE_OPTIONS=()
-          EVENT_CMAKE_OPTIONS+=("-DCMAKE_C_FLAGS='--coverage -O0'")
+          EVENT_CMAKE_OPTIONS+=("-DCMAKE_C_FLAGS='-fprofile-arcs -ftest-coverage'")
           
           if [ "NONE_MEM_CHECK" == "ENABLE_VALGRIND" ]; then
             EVENT_CMAKE_OPTIONS+=("-DENABLE_CJSON_UTILS=ON" "-DENABLE_VALGRIND=ON" "-DENABLE_SAFE_STACK=ON" "-DENABLE_SANITIZERS=OFF")
