@@ -35,9 +35,9 @@ jobs:
       shell: bash
       run: |
           EVENT_CMAKE_OPTIONS=()
-          #EVENT_CMAKE_OPTIONS+=("-DCMAKE_C_FLAGS='-fprofile-arcs -ftest-coverage'")
-          EVENT_CMAKE_OPTIONS+=("-DCMAKE_EXE_LINKER_FLAGS='--coverage'")
-          EVENT_CMAKE_OPTIONS+=("-DCMAKE_SHARED_LINKER_FLAGS='--coverage'")
+          EVENT_CMAKE_OPTIONS+=("-DCMAKE_C_FLAGS='-fprofile-arcs -ftest-coverage'")
+          #EVENT_CMAKE_OPTIONS+=("-DCMAKE_EXE_LINKER_FLAGS='--coverage'")
+          #EVENT_CMAKE_OPTIONS+=("-DCMAKE_SHARED_LINKER_FLAGS='--coverage'")
           #EVENT_CMAKE_OPTIONS+=("-DCMAKE_STATIC_LINKER_FLAGS='--coverage'")
 
           if [ "NONE_MEM_CHECK" == "ENABLE_VALGRIND" ]; then
